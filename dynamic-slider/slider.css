@@ -1,0 +1,153 @@
+/*** Slider styles w/ Tailwind preprocessor ***/
+
+#slide-repeater {
+    display: grid;
+    grid-template-columns: 1fr;
+    position: relative;
+
+    div.slide-block {
+        grid-row-start: 1;
+        grid-column-start: 1;
+        overflow-y: hidden;
+        visibility: visible;
+        transition: all .5s;
+        -webkit-transition: all .5s;
+    }
+
+    div.slide-block.closed {
+        opacity: 0;
+        visibility: hidden;
+        transition: all .5s;
+        -webkit-transition: all .5s;
+    }
+
+    span.quote-content {
+        font-size: 25px;
+        line-height: 1.4;
+        margin: 0 0 35px;
+        color: #fff;
+    }
+
+    span.quote-name {
+        font-size: 27px;
+        line-height: 1.5;
+        font-family: 'LarsseitBold',sans-serif;
+        margin: 0 0 5px;
+        color: #fff;
+    }
+
+    span.quote-company {
+        font-size: 20px;
+        font-family: 'LarsseitLight',sans-serif;
+        line-height: 1;
+        margin: 0;
+        color: #fff;
+    }
+
+    ul#slide-nav {
+        position: absolute;
+        bottom: 5rem;
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        text-align: center;
+
+        li {
+            list-style: none;
+            width: 45px;
+            height: 5px;
+            border-radius: 2px;
+            margin: 0 8px;
+            display: inline-block;
+            
+            button {
+                width: 100%;
+                height: 100%;
+                border-radius: 2px;
+                padding: 0;
+                background: #bdbdbd;
+                border: none;
+            }
+
+            button.button-active {
+                @apply bg-white border-none;
+            }
+        }
+    }
+}
+
+/*** Slider styles w/o Tailwind preprocessor ***/
+
+/*** 
+#slide-repeater {
+    display: grid;
+    grid-template-columns: 1fr;
+    position: relative;
+}
+div.slide-block {
+    grid-row-start: 1;
+    grid-column-start: 1;
+    overflow-y: hidden;
+    visibility: visible;
+    transition: all .5s;
+    -webkit-transition: all .5s;
+}
+div.slide-block.closed {
+    opacity: 0;
+    visibility: hidden;
+    transition: all .5s;
+    -webkit-transition: all .5s;
+}
+span.quote-content {
+    font-size: 25px;
+    line-height: 1.4;
+    margin: 0 0 35px;
+    color: #fff;
+}
+span.quote-name {
+    font-size: 27px;
+    line-height: 1.5;
+    font-family: 'LarsseitBold',sans-serif;
+    margin: 0 0 5px;
+    color: #fff;
+}
+span.quote-company {
+    font-size: 20px;
+    font-family: 'LarsseitLight',sans-serif;
+    line-height: 1;
+    margin: 0;
+    color: #fff;
+}
+ul#slide-nav {
+    position: absolute;
+    bottom: 5rem;
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-align: center;
+}
+ul#slide-nav li {
+    list-style: none;
+    width: 45px;
+    height: 5px;
+    border-radius: 2px;
+    margin: 0 8px;
+    display: inline-block;
+}  
+ul#slide-nav button {
+    width: 100%;
+    height: 100%;
+    border-radius: 2px;
+    padding: 0;
+    background: #bdbdbd;
+    border: none;
+}
+ul#slide-nav button.button-active {
+    background-color:#fff;
+    border: none;
+}
+***/

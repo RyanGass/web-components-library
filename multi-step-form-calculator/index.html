@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tachyons@4.12.0/css/tachyons.min.css">
+  
+  <title>Multi Step Form Calculator</title>
+
+<style>
+
+/*** Fluid Typography ***/
+:root {
+  --fluid-min-width: 320;
+  --fluid-max-width: 1400;
+
+  --fluid-screen: 100vw;
+  --fluid-bp: calc(
+    (var(--fluid-screen) - var(--fluid-min-width) / 16 * 2rem) /
+      (var(--fluid-max-width) - var(--fluid-min-width))
+  );
+}
+
+@media screen and (min-width: 1400px) {
+  :root {
+    --fluid-screen: calc(var(--fluid-max-width) * 1px);
+  }
+}
+
+:root {
+  --f-0-min: 36.00;
+  --f-0-max: 49.00;
+  --step-0: calc(
+    ((var(--f-0-min) / 16) * 1rem) + (var(--f-0-max) - var(--f-0-min)) *
+      var(--fluid-bp)
+  );
+
+  --f-1-min: 52.80;
+  --f-1-max: 73.75;
+  --step-1: calc(
+    ((var(--f-1-min) / 16) * 1rem) + (var(--f-1-max) - var(--f-1-min)) *
+      var(--fluid-bp)
+  );
+  
+  --f-2-min: 14.00;
+  --f-2-max: 20.00;
+  --step-2: calc(
+    ((var(--f-2-min) / 16) * 1rem) + (var(--f-2-max) - var(--f-2-min)) *
+      var(--fluid-bp)
+  );
+  
+  --f-3-min: 32.00;
+  --f-3-max: 36.00;
+  --step-3: calc(
+    ((var(--f-3-min) / 16) * 1rem) + (var(--f-3-max) - var(--f-3-min)) *
+      var(--fluid-bp)
+  );
+
+  --f-4-min: 18.00;
+  --f-4-max: 26.00;
+  --step-4: calc(
+    ((var(--f-4-min) / 16) * 1rem) + (var(--f-4-max) - var(--f-4-min)) *
+      var(--fluid-bp)
+  );
+
+  --f-5-min: 27.00;
+  --f-5-max: 35.00;
+  --step-5: calc(
+    ((var(--f-5-min) / 16) * 1rem) + (var(--f-5-max) - var(--f-5-min)) *
+      var(--fluid-bp)
+  );
+
+  --f-6-min: 12.00;
+  --f-6-max: 14.00;
+  --step-6: calc(
+    ((var(--f-6-min) / 16) * 1rem) + (var(--f-6-max) - var(--f-6-min)) *
+      var(--fluid-bp)
+  );
+
+  --f-7-min: 12.00;
+  --f-7-max: 16.00;
+  --step-7: calc(
+    ((var(--f-7-min) / 16) * 1rem) + (var(--f-7-max) - var(--f-7-min)) *
+      var(--fluid-bp)
+  );
+
+  --f-8-min: 17.00;
+  --f-8-max: 22.00;
+  --step-8: calc(
+    ((var(--f-8-min) / 16) * 1rem) + (var(--f-8-max) - var(--f-8-min)) *
+      var(--fluid-bp)
+  );
+
+  --f-9-min: 19.00;
+  --f-9-max: 26.00;
+  --step-9: calc(
+    ((var(--f-9-min) / 16) * 1rem) + (var(--f-9-max) - var(--f-9-min)) *
+      var(--fluid-bp)
+  );
+
+  --f-10-min: 11.00;
+  --f-10-max: 16.00;
+  --step-10: calc(
+    ((var(--f-10-min) / 16) * 1rem) + (var(--f-10-max) - var(--f-10-min)) *
+      var(--fluid-bp)
+  );
+
+  --f-11-min: 14.00;
+  --f-11-max: 22.00;
+  --step-11: calc(
+    ((var(--f-11-min) / 16) * 1rem) + (var(--f-11-max) - var(--f-11-min)) *
+      var(--fluid-bp)
+  );
+}
+
+/*** Global Styles ***/
+
+body {
+    font-family: sans-serif;
+}
+
+.rs-savings-calculator {
+    max-width: 1400px;
+    margin: auto;
+}
+
+input {
+    background-color: #fff;
+}
+
+button.button, 
+a.button {
+    font-size: 1rem;
+    font-family: "Source Sans Pro",sans-serif;
+    font-weight: 700;
+    border-radius: 6px;
+    border: none;
+    background-color: #005caa;
+    color: #fff;
+    text-decoration: none;
+}
+
+@media screen and (min-width: 30rem) {
+    button.button, 
+    a.button {
+        padding: 0.75rem 2rem;
+    }
+}
+
+button.button, 
+a.button {
+    padding: 0.75rem 1rem;
+}
+
+button.button:hover, 
+a.button:hover {
+    background-color: #fff;
+    color: #005caa;
+}
+
+button.button:focus, 
+a.button:focus {
+    background-color: #fff;
+    color: #005caa;
+    outline: none;
+}
+
+
+label, button {
+    cursor: pointer;
+}
+
+.page-buttons {
+    text-align: right;
+}
+
+.question-wrapper:not(#question-1) .page-buttons button.button:first-child {
+    background-color: transparent;
+    color: #005caa;
+}
+
+input:checked+label {
+    background: #225da5;
+    color: #fff;
+    cursor: pointer;
+}
+
+label {
+    padding: 15px 20px;
+    border-radius: 100px;
+    /* box-shadow: 0 3px 6px rgb(0 0 0 / 16%); */
+    box-shadow: 1px 3px 6px #00000029;
+    display: inline-block;
+    margin-bottom: 15px;
+    overflow: visible;
+    background-color: #fff;
+    width: 80%;
+}
+
+label:hover {
+    background-color: #225da5;
+    color: #fff;
+}
+
+[type=radio] {
+    position: absolute;
+    opacity: 0;
+}
+
+select{
+    overflow:auto;
+    border: none;
+}
+
+.button-choice {
+    margin-right: 15px;
+}
+
+/*** Progress Bar ***/
+
+div#progress-bar-container {
+    margin-bottom: 25px;
+}
+
+#progress-bar-bg {
+    background-color: #fff;
+    height: 25px;
+    width: 100%;
+    border-radius: 15px;
+}
+
+#progress-bar {
+    height: 25px;
+    background-color: #005caa; 
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    transition-property: width;
+	transition-duration: .5s;
+}
+
+#progress-bar.step1 {
+    width: 16.67%;
+}
+
+#progress-bar.step2 {
+    width: 33.34%;
+}
+
+#progress-bar.step3 {
+    width: 50%;
+}
+
+#progress-bar.step4 {
+    width: 66.67%;
+}
+
+#progress-bar.step5 {
+    width: 83.34%;
+}
+
+#progress-bar.step6 {
+    width: 100%;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+/*** Form slide transition styles ***/
+
+form {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+form div.question-wrapper {
+    grid-row-start: 1;
+    grid-column-start: 1;
+}
+
+#results .inner-container,
+#question-1,
+#question-2,
+#question-3,
+#question-4,
+#question-5 {
+	overflow-y: hidden;
+    visibility: visible;
+    max-height: 1000px;
+}
+
+#results .inner-container.closed,
+#question-1.closed,
+#question-2.closed,
+#question-3.closed,
+#question-4.closed,
+#question-5.closed {
+    opacity: 0;
+    visibility: hidden;
+    max-height: 0;
+}
+
+.question-wrapper .q-inputs {
+    flex-basis: 64%;
+}
+
+.question-wrapper .q-image mv3 mv0-l {
+    flex-basis: 47%;
+    text-align: left;
+}
+
+/*** Results Page ***/
+
+div#results {
+    position: relative;
+    z-index: 0;
+    max-height: 1000px;
+    opacity: 1;
+    visibility: visible;
+}
+
+div#results:after {
+    position: absolute;
+    content: '';
+    width: 35%;
+    height: 76%;
+    top: 0;
+    right: 0;
+    background-image: url(logo-1.svg);
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    z-index: -1;
+    background-size: 50%;
+}
+
+div#results h2#results-title {
+    margin-bottom: 30px;
+    margin-top: 30px;
+    font: normal normal 600 45px/36px Source Sans Pro;
+    color: #005CAA;
+}
+
+div#results .result-amount {
+    font: normal normal 600 var(--step-0)/var(--step-1) Source Sans Pro;
+}
+
+div#results #calc-results .result-title {
+    color: #005CAA;
+    font: normal normal 600 var(--step-8)/var(--step-9) Source Sans Pro;
+}
+
+div#results div#paygo,
+div#results div#subscriber{
+    position: relative;
+}
+
+/* div#results div#paygo:after{
+    position: absolute;
+    content: 'VS';
+    right: 0;
+    top: 50%;
+    font: normal normal 600 var(--step-2)/var(--step-3) Source Sans Pro;
+    color: #838383;
+} */
+
+div#results #vs {
+    font: normal normal 600 var(--step-2)/var(--step-3) Source Sans Pro;
+    color: #838383;
+}
+
+div#results span.small-est {
+    letter-spacing: 0px;
+    color: #838383;
+    font: normal normal normal var(--step-10)/var(--step-11) Source Sans Pro;
+}
+
+div#results #message {
+    color: #fff;
+    font: normal normal normal var(--step-4)/var(--step-5) Source Sans Pro;
+    margin-left: -26px;
+    padding: 10px 0 10px 26px;
+    background-color: #40AD48; 
+}
+
+div#results.closed {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+    visibility: hidden;
+}
+
+div#results .inner-container {
+    background-color: #333;
+    color: #fff;
+    width: fit-content;
+}
+
+div#results div#calc-results {
+    margin-bottom: 25px;
+}
+
+div#results #vs {
+    padding: 0 4vw;
+}
+
+div#savings-disclaimer {
+    font: normal normal normal var(--step-6)/var(--step-7) Source Sans Pro;
+    color: #000000;
+}
+
+.bottom-elements img {
+    max-width: 100px!important;
+}
+
+h3#dropdown-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-transform: none;
+}
+
+/*** Range Slider ***/
+
+svg {
+    overflow: visible;
+}
+
+input#rangeValue {
+    border: none;
+    font-size: 24px;
+    font-family: 'Source Sans Pro';
+    font-weight: bold;
+    color: #005caa;
+    text-align: center;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 3px 3px 8px #0000001d;
+    width: 100px;
+    height: 35px;
+}
+
+fieldset.range__field {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+fieldset div {
+    order: 2;
+}
+
+fieldset input {
+    order: 1;
+}
+
+input.range {
+  -webkit-appearance: none;
+  bottom: -10px;
+  position: relative;
+  width: 90%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+input.range:focus {
+  outline: 0;
+}
+input.range::-moz-focus-outer {
+  border: 0;
+}
+
+input.range::-webkit-slider-thumb {
+  border: 0;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #6ABFEB;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -7.5px;
+}
+
+input.range::-moz-range-thumb {
+  border: 0;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #6ABFEB;
+  cursor: pointer;
+}
+
+input.range::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 5px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0px 0px 1px rgba(13, 13, 13, 0);
+  background: #6ABFEB;
+  border-radius: 20px;
+  border: 0;
+}
+
+input.range::-moz-range-track {
+  width: 100%;
+  height: 5px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0px 0px 1px rgba(13, 13, 13, 0);
+  background: #6ABFEB;
+  border-radius: 20px;
+  border: 0;
+}
+
+input.range::-ms-track {
+  width: 100%;
+  height: 5px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+
+input.range::-ms-thumb {
+  border: 0;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #6ABFEB;
+  cursor: pointer;
+  height: 5px;
+}
+
+input.range::-ms-fill-lower,
+input.range::-ms-fill-upper {
+  background: #fff;
+  border: 0;
+  border-radius: 40px;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0px 0px 1px rgba(13, 13, 13, 0);
+}
+
+.range__tick {
+  fill: #a0a0a0;
+}
+.range__tick:first-child {
+  -webkit-transform: translateX(2px);
+  -moz-transform: translateX(2px);
+  -ms-transform: translateX(2px);
+  -o-transform: translateX(2px);
+  transform: translateX(2px);
+}
+.range__tick:last-child {
+  -webkit-transform: translateX(-3px);
+  -moz-transform: translateX(-3px);
+  -ms-transform: translateX(-3px);
+  -o-transform: translateX(-3px);
+  transform: translateX(-3px);
+}
+
+.range__field {
+  border: 0;
+}
+
+@media screen and (min-width: 80em) {
+    fieldset.range__field {
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 0;
+    }
+
+    fieldset div {
+        order: 1;
+    }
+
+    fieldset input {
+        order: 2;
+    }
+}
+</style>
+</head>
+<body>
+
+<div id="calculatorApp" class="pa3">
+    <div id="wrapper">
+        <div id="progress-bar-container">
+            <div id="progress-bar-bg">
+                <div id="progress-bar" class="step1"></div>
+            </div>
+        </div>
+        <form v-on:submit.prevent="getFormData()" id="frm">
+            <div id="question-1" class="question-wrapper">
+                <div class="inner-container">
+                    <h3 id="dropdown-title" class="pr3">How many squares is the average roof you measure?</h3>
+                    <div class="flex justify-between mid-elements flex-column flex-row-l items-center-l">
+                        <div class="q-inputs">
+                            <div v-for="square in squares" class="button-choice">
+                                <input type="radio" :id="square.id" name="question-1" :value="square.selection" :data-id="square.id" :data-square="square.selection" class="question-input">
+                                <label :for="square.id">{{square.selection}}</label>
+                            </div>
+                        </div>
+                        <div class="q-image mv3 mv0-l">
+                            <img src="slide-1.png" alt="" />
+                        </div>
+                    </div>
+                    <div class="flex justify-between bottom-elements">
+                        <img src="logo.svg" alt="RoofSnap Logo" />
+                        <div class="page-buttons">
+                            <button type="button" @click="Next()" class="button">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="question-2" class="question-wrapper closed">
+                <div class="inner-container">
+                    <h3 id="dropdown-title" class="pr3">Is your business primarily a residential or commercial roofing company?</h3>
+                    <div class="flex justify-between mid-elements flex-column flex-row-l items-center-l">
+                        <div class="q-inputs">
+                            <div v-for="type in types" class="button-choice">
+                                <input type="radio" :id="type.id" name="question-2" :value="type.selection" :data-id="type.id" :data-square="type.selection" class="question-input">
+                                <label :for="type.id">{{type.selection}}</label>
+                            </div>
+                        </div>
+                        <div class="q-image mv3 mv0-l">
+                            <img src="slide-2.png" alt="" />
+                        </div>
+                    </div>
+                    <div class="flex justify-between bottom-elements">
+                        <img src="logo.svg" alt="RoofSnap Logo" />
+                        <div class="page-buttons">
+                            <button type="button" @click="Prev()" class="button">&lt; Previous</button>
+                            <button type="button" @click="Next()" class="button">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="question-3" class="question-wrapper closed">
+                <div class="inner-container">
+                    <h3 id="dropdown-title" class="pr3">For measurement reports, do you prefer an approximated square count or an exact, detailed estimate?</h3>
+                    <div class="flex justify-between mid-elements flex-column flex-row-l items-center-l">
+                        <div class="q-inputs">
+                            <div v-for="accurate in accuracy" class="button-choice">
+                                <input type="radio" :id="accurate.id" name="question-3" :value="accurate.selection" :data-id="accurate.id" :data-square="accurate.selection" class="question-input">
+                                <label :for="accurate.id">{{accurate.selection}}</label>
+                            </div>
+                        </div>
+                        <div class="q-image mv3 mv0-l">
+                            <img src="slide-3.png" alt="" />
+                        </div>
+                    </div>
+                    <div class="flex justify-between bottom-elements">
+                        <img src="logo.svg" alt="RoofSnap Logo" />
+                        <div class="page-buttons">
+                            <button type="button" @click="Prev()" class="button">&lt; Previous</button>
+                            <button type="button" @click="Next()" class="button">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="question-4" class="question-wrapper closed">
+                <div class="inner-container">
+                    <h3 id="dropdown-title" class="pr3">How many users do you have (match answers to pricing tiers) </h3>
+                    <div class="flex justify-between mid-elements flex-column flex-row-l items-center-l">
+                        <div class="q-inputs">
+                            <div v-for="user in users" class="button-choice">
+                                <input type="radio" :id="user.id" name="question-4" :value="user.selection" :data-id="user.id" :data-square="user.selection" class="question-input">
+                                <label :for="user.id">{{user.selection}}</label>
+                            </div>
+                        </div>
+                        <div class="q-image mv3 mv0-l">
+                            <img src="slide-4.png" alt="" />
+                        </div>
+                    </div>
+                    <div class="flex justify-between bottom-elements">
+                        <img src="logo.svg" alt="RoofSnap Logo" />
+                        <div class="page-buttons">
+                            <button type="button" @click="Prev()" class="button">&lt; Previous</button>
+                            <button type="button" @click="Next()" class="button">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="question-5" class="question-wrapper closed">
+                <div class="inner-container">
+                    <h3 id="dropdown-title" class="pr3">On average, how many roof measurements do you order per month?</h3>
+                    <div class="flex justify-between mid-elements flex-column flex-row-l items-center-l">
+                        <div class="q-inputs">
+                            <fieldset class="flex range__field">
+                                <div>
+                                    <input id="job-range" class="range question-input" type="range" min="0" max="750" onChange="rangeSlide(this.value)">
+                                    <svg role="presentation" width="100%" height="10" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="range__tick" x="2%" y="3" width="1" height="10"></rect>
+                                        <rect class="range__tick" x="31%" y="3" width="1" height="10"></rect>
+                                        <rect class="range__tick" x="59%" y="3" width="1" height="10"></rect>
+                                        <rect class="range__tick" x="88%" y="3" width="1" height="10"></rect>
+                                    </svg>
+                                    <svg role="presentation" width="100%" height="14" xmlns="http://www.w3.org/2000/svg">
+                                        <text class="range__point" x="2%" y="14" text-anchor="start">0</text>
+                                        <text class="range__point" x="31%" y="14" text-anchor="middle">250</text>
+                                        <text class="range__point" x="59%" y="14" text-anchor="middle">500</text>
+                                        <text class="range__point" x="88%" y="14" text-anchor="middle">750</text>
+                                    </svg>
+                                </div>
+                                <input type="text" id="rangeValue" value="0" class="ba bw-1 b--light-silver br2 pa2 mb3 mb0-l question-input" onChange="rangeSlide(this.value)">
+                            </fieldset>
+                        </div>
+                        <div class="q-image mv3 mv0-l">
+                            <img src="slide-5.png" alt="" />
+                        </div>
+                    </div>
+                    <div class="flex justify-between bottom-elements">
+                        <img src="logo.svg" alt="RoofSnap Logo" />
+                        <div class="page-buttons">
+                            <button type="button" @click="Prev()" class="button">&lt; Previous</button>
+                            <button type="submit" @click="Next()" class="button">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            
+            <div id="results" class="question-wrapper closed"> 
+                <h2 id="results-title" class="pr3">Results</h2>
+                <div id="calc-results" class="flex flex-row items-center justify-start">
+                    <div id="paygo" class="flex items-start justify-center result-block flex-column">
+                        <span class="result-title">Pay-As-You-Go /<br>Non-Member Price</span>
+                        <span id="paygo-amount" class="result-amount"></span>
+                        <span class="small-est">Estimated Monthly Spend</span>
+                    </div>
+                    <div id="vs">
+                        VS
+                    </div>
+                    <div id="subscriber" class="flex items-start justify-center result-block flex-column">
+                        <span class="result-title">RoofSnap<br>Subscription</span>
+                        <span id="subscriber-amount" class="result-amount"></span>
+                        <span class="small-est">Estimated Monthly Spend</span>
+                    </div>
+                    <!-- <div id="savings" class="flex items-start justify-center result-block flex-column">
+                        <span class="result-title">Monthly Savings</span>
+                        <span id="savings-amount" class="result-amount"></span>
+                    </div> -->
+                </div>
+                <p id="message"></p>
+                <div class="flex items-center justify-between flex-column flex-row-l bottom-elements">
+                    <img class="mb3 mb0-l" src="logo.svg" alt="RoofSnap Logo" />
+                    <div class="page-buttons final-page">
+                        <!--<button class="button" type="button" @click="Reset()">Start Over</button>-->
+                        <button type="button" @click="Prev()" class="button">&lt; Previous</button>
+                        <button class="button" type="button" onclick="window.location.href='//go.roofsnap.com/startmeasuring.html'">Start Saving</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script type="text/javascript">
+    // Range Slider
+    function rangeSlide(value) {
+        document.getElementById('rangeValue').value = value;
+        document.getElementById('job-range').value = value;
+    }
+
+    // Form Pagination
+
+    var questions = document.getElementsByClassName("question-wrapper");
+    let position = 0;
+    let step = 1;
+
+    function hideQuestion() {
+        questions[position].classList.remove('closed');
+        for (let i = 0; i < questions.length; i++) {
+            if (i !== position) questions[i].classList.add('closed');
+        }
+    }
+
+    function control() {
+        if (position >= 0 && position < questions.length) {
+            hideQuestion();
+        } else if (position === questions.length) {
+            position = 0;
+            hideQuestion();
+        } else {
+            position = questions.length - 1;
+            hideQuestion();
+        }
+    }
+
+    function Prev() {
+        position--;
+        document.getElementById('progress-bar').classList.remove('step' + step);
+        document.getElementById('progress-bar-container').style.display = 'block';
+        step--;
+        control();
+    }
+
+    function Next() {
+        position++;
+        step++;
+        document.getElementById('progress-bar').classList.add('step' + step);
+        control();
+    }
+
+    // function Reset() {
+    //     position = 0;
+    //     step = 1;
+    //     document.getElementById('progress-bar').removeAttribute('class');
+    //     document.getElementById('progress-bar').classList.add('step' + step);
+    //     document.getElementById('progress-bar-container').style.display = 'block';
+    //     var ele = document.getElementsByClassName('question-input');
+    //     for(var i=0;i<ele.length;i++)
+    //         ele[i].checked = false;
+    //     control();
+    // }
+
+</script>
+
+<script> 
+  var calculatorApp = new Vue({
+  el: "#calculatorApp",
+  data: function () {
+    return {
+      squares: [
+        {id: 'q1-1', selection: 'Less than 50 squares'},
+        {id: 'q1-2', selection: 'More than 50 squares'},
+      ],   
+      types: [
+        {id: 'q2-1', selection: 'Residential'},
+        {id: 'q2-2', selection: 'Commercial'},
+      ],   
+      accuracy: [
+        {id: 'q3-1', selection: 'Approximate square count'},
+        {id: 'q3-2', selection: 'Precise square count'},
+        {id: 'q3-3', selection: 'Mixture depending on the job'},
+      ],
+      users: [
+        {id: 'q4-1', selection: '1 User'},
+        {id: 'q4-2', selection: '2 Users'},
+        {id: 'q4-3', selection: '3-5 Users'},
+        {id: 'q4-4', selection: '6-10 Users'},
+      ],
+      orders: 0,
+      rangeVal: null,
+      subscriptionCost: null,
+      paygo: null,
+      subscriber: null,
+      subscriberCom: null,
+      subscriberResLow: null,
+      subscriberResHigh: null,
+    };
+  },
+  computed: {
+       //
+  },
+  methods: {
+    getFormData() {
+        var form = [];
+        var squaresVals = document.getElementsByName('question-1');
+        for (var squaresVal of squaresVals) {
+            if (squaresVal.checked) {
+                squaresVals = squaresVal.value;
+            }
+        }
+        var jobVals = document.getElementsByName('question-2');
+        for (var jobVal of jobVals) {
+            if (jobVal.checked) {
+                jobVals = jobVal.value
+            }
+        }
+        var accuracyVals = document.getElementsByName('question-3');
+        for (var accuracyVal of accuracyVals) {
+            if (accuracyVal.checked) {
+                accuracyVals = accuracyVal.value
+            }
+        }
+        var userVals = document.getElementsByName('question-4');
+        for (var userVal of userVals) {
+            if (userVal.checked) {
+                userVals = userVal.value
+            }
+        }
+        this.rangeVals = document.getElementById('job-range').value;
+        form.push(squaresVals, jobVals, accuracyVals, userVals, this.rangeVals); 
+        if (form[0] == 'Less than 50 squares' && form[2] == 'Approximate square count') {
+            this.paygo = 12;
+            this.subscriber = 9;
+        }
+
+        if (form[0] == 'Less than 50 squares' && form[2] == 'Precise square count') {
+            this.paygo = 30;
+            this.subscriber = 17;
+        }
+
+        if (form[0] == 'More than 50 squares' && form[2] == 'Approximate square count') {
+            this.paygo = 12;
+            this.subscriber = 9;
+        }
+
+        if (form[0] == 'More than 50 squares' && form[2] == 'Precise square count' && form[1] == 'Residential') {
+            this.paygo = 50;
+            this.subscriber = 40;
+        }
+
+        if (form[0] == 'More than 50 squares' && form[2] == 'Precise square count' && form[1] == 'Commercial') {
+            this.paygo = 50;
+            this.subscriber = 17;
+        }
+
+        if (form[0] == 'Less than 50 squares' && form[2] == 'Mixture depending on the job') {
+            this.paygo = 21;
+            this.subscriber = 13;
+        }
+
+        if (form[0] == 'More than 50 squares' && form[2] == 'Mixture depending on the job' && form[1] == 'Residential') {
+            this.paygo = 31;
+            this.subscriber = 24.5;
+        }
+
+        if (form[0] == 'More than 50 squares' && form[2] == 'Mixture depending on the job' && form[1] == 'Commercial') {
+            this.paygo = 21;
+            this.subscriber = 13;
+        }
+
+        switch (form[3]) {
+            case '1 User': 
+                this.subscriptionCost = 99;
+                break;
+            case '2 Users': 
+                this.subscriptionCost = 148;
+                break;
+            case '3-5 Users': 
+                this.subscriptionCost = 290;
+                break;
+            case '6-10 Users': 
+                this.subscriptionCost = 490;
+                break;
+            default:
+                break;
+        }
+        this.getResults();
+    },
+    getResults() {
+        document.getElementById('progress-bar-container').style.display = 'none';
+        function formatCurrency(num) {
+            num = num.toString().replace(/\$|\,/g, "");
+            if (isNaN(num)) {
+                num = "0";
+            }
+
+            var sign = num == (num = Math.abs(num));
+            num = Math.floor(num * 100 + 0.50000000001);
+            // var cents = num % 100;
+            num = Math.floor(num / 100).toString();
+
+            // if (cents < 10) {
+            //     cents = "0" + cents;
+            // }
+            for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++) {
+                num = num.substring(0, num.length - (4 * i + 3)) + "," + num.substring(num.length - (4 * i + 3));
+            }
+        
+            return (sign ? "" : "-") + "$" + num;
+        }
+
+        let paygoAmount = ((this.paygo) * (this.rangeVals));
+        document.getElementById('paygo-amount').innerHTML = formatCurrency(paygoAmount);
+
+        let subscriberAmount = ((this.rangeVals) * (this.subscriber) + (this.subscriptionCost));
+        document.getElementById('subscriber-amount').innerHTML = formatCurrency(subscriberAmount);
+
+        let savingsAmount = (((this.paygo * this.rangeVals)) - ((this.rangeVals) * (this.subscriber) + (this.subscriptionCost)));
+        //document.getElementById('savings-amount').innerHTML = formatCurrency(savingsAmount);
+        console.log(paygoAmount);
+        console.log(subscriberAmount);
+        console.log(savingsAmount);
+        console.log(this.rangeVals);
+
+        if (savingsAmount > 0) {
+            document.getElementById('message').innerHTML = 'You save ' + formatCurrency(savingsAmount) + ' per month with the Subscription plan.';
+        } else {
+            document.getElementById('message').innerHTML = 'Pay as you go is still your best option';
+        }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
